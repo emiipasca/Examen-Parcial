@@ -9,11 +9,60 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 </head>
 <body>
+    <style>
+        .theme-switch {
+            position: auto;
+        }
+        
+        .theme-btn {
+            border: none;
+            background: none;
+            color: white;
+            font-size: 18px;
+            padding: 5px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .theme-btn:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+        
+        .dark-mode {
+            background-color: #333 ;
+            color: #e0e0e0 ;
+        }
+        
+        .dark-mode .card {
+            background-color: #a0a0a0 ;
+            border-color: #333 ;
+        }
+        
+        .dark-mode .table {
+            background-color: #ffffff ;
+            color: #e0e0e0 ;
+        }
+        
+        .dark-mode .table-striped > tbody > tr:nth-of-type(odd) > td {
+            background-color: #ffffff ;
+        }
+        
+        .dark-mode footer {
+            background-color: #1a1919;
+        }
+    </style>
+<body>
     <!-- Encabezado y menú de navegación -->
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container">
+            <div class="container position-relative">
                 <a class="navbar-brand" href="index.html">Mi Cursada 2025</a>
+                
+                <div class="theme-switch">
+                    <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
+                </div>
+                
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -39,6 +88,30 @@
             </div>
         </nav>
     </header>
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const btn = document.getElementById('themeBtn');
+            
+            if (body.classList.contains('dark-mode')) {
+                body.classList.remove('dark-mode');
+                btn.textContent = '🌙';
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.classList.add('dark-mode');
+                btn.textContent = '☀️';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+        
+        // Cargar tema al iniciar
+        window.onload = function() {
+            if (localStorage.getItem('theme') === 'dark') {
+                document.body.classList.add('dark-mode');
+                document.getElementById('themeBtn').textContent = '☀️';
+            }
+        }
+    </script>
 
     <!-- Sección principal -->
     <main class="container my-5">
