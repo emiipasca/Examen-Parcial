@@ -48,6 +48,94 @@
         .dark-mode footer {
             background-color: #1a1919;
         }
+
+        #contactForm {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .form-input {
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            padding: 12px 15px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: rgba(255,255,255,0.9);
+        }
+
+        .form-input:focus {
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 0.2rem rgba(76, 175, 80, 0.25);
+            transform: translateY(-2px);
+            background: white;
+        }
+
+        .form-input.error {
+            border-color: #f44336;
+            background-color: #ffebee;
+        }
+
+        .form-input.success {
+            border-color: #4CAF50;
+            background-color: #e8f5e8;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: rgb(0, 0, 0);
+            margin-bottom: 8px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .submit-btn {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            border: none;
+            border-radius: 25px;
+            padding: 15px 40px;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .error-message {
+            color: #f44336;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .success-message {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border: 1px solid #c3e6cb;
+            display: none;
+        }
+
+        .card-header {
+            background: linear-gradient(45deg, #667eea, #764ba2) !important;
+             }
+
     </style>
 <body>
     <!-- Encabezado y menú de navegación -->
@@ -115,34 +203,175 @@
         <h1 class="text-center mb-5">Contacto</h1>
         
         <div class="row">
-            <div class="col-lg-6 mx-auto">
-                <div class="card shadow-sm">
-                    <div class="card-header bg-primary text-white">
-                        <h2 class="h4 mb-0">Formulario de contacto</h2>
+            <div class="col-lg-8 mx-auto">
+                <div class="card shadow-lg border-0">
+                    <div class="card-header text-white">
+                        <h2 class="h4 mb-0 text-center">Formulario de contacto</h2>
                     </div>
-                    <div class="card-body">
-                        <form>
-                            <div class="mb-3">
-                                <label for="nombre" class="form-label">Nombre</label>
-                                <input type="text" class="form-control" id="nombre" placeholder="" >
+                    <div class="card-body p-0">
+                        <form id="contactForm" novalidate>
+                            <div class="mb-4">
+                                <label for="nombre" class="form-label">Nombre Completo</label>
+                                <input type="text" class="form-control form-input" id="nombre" name="nombre" placeholder="Ingresa tu nombre completo" required>
+                                <div class="error-message" id="nombreError">Por favor, ingresa tu nombre</div>
                             </div>
                             
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Correo electrónico</label>
-                                <input type="email" class="form-control" id="email" placeholder="" >
+                            <div class="mb-4">
+                                <label for="email" class="form-label">Correo Electrónico</label>
+                                <input type="email" class="form-control form-input" id="email" name="email" placeholder="ejemplo@correo.com" required>
+                                <div class="error-message" id="emailError">Por favor, ingresa un correo electrónico válido</div>
                             </div>
                             
-                            <div class="mb-3">
+                            <div class="mb-4">
                                 <label for="asunto" class="form-label">Asunto</label>
-                                <input type="text" class="form-control" id="asunto" placeholder="" >
-                            </div>
-                            <div class="mb-3">
-                                <label for="asunto" class="form-label">Mensaje</label>
-                                <input type="text" class="form-control" id="asunto" placeholder="" >
+                                <input type="text" class="form-control form-input" id="asunto" name="asunto" placeholder="Escribe el asunto de tu mensaje" required>
+                                <div class="error-message" id="asuntoError">Por favor, ingresa un asunto</div>
                             </div>
                             
-                             <form>
-                                    
+                            <div class="mb-4">
+                                <label for="mensaje" class="form-label">Mensaje</label>
+                                <textarea class="form-control form-input" id="mensaje" name="mensaje" rows="5" placeholder="Escribe tu mensaje aquí..." required></textarea>
+                                <div class="error-message" id="mensajeError">Por favor, escribe tu mensaje</div>
+                            </div>
+                            
+                            <div class="text-center">
+                                <button type="submit" class="submit-btn">Enviar Mensaje</button>
+                            </div>
+                            
+                            <div class="success-message" id="successMessage">
+                                <strong>¡Gracias por completar el formulario!</strong><br>
+                                En breve le responderemos.
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+            <script>
+                // Función para validar email
+        function validateEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
 
-                                    <input type="submit" value="Enviar">
-                             </form>
+        // Función para mostrar errores
+        function showError(fieldId, message) {
+            const field = document.getElementById(fieldId);
+            const errorDiv = document.getElementById(fieldId + 'Error');
+            
+            field.classList.add('error');
+            field.classList.remove('success');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+
+        // Función para mostrar éxito
+        function showSuccess(fieldId) {
+            const field = document.getElementById(fieldId);
+            const errorDiv = document.getElementById(fieldId + 'Error');
+            
+            field.classList.add('success');
+            field.classList.remove('error');
+            errorDiv.style.display = 'none';
+        }
+
+        // Función para limpiar errores
+        function clearErrors() {
+            const fields = ['nombre', 'email', 'asunto', 'mensaje'];
+            fields.forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                const errorDiv = document.getElementById(fieldId + 'Error');
+                
+                field.classList.remove('error', 'success');
+                errorDiv.style.display = 'none';
+            });
+        }
+
+        // Función principal de validación y envío
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            
+            // Limpiar errores previos
+            clearErrors();
+            
+            // Obtener valores del formulario
+            const nombre = document.getElementById('nombre').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const asunto = document.getElementById('asunto').value.trim();
+            const mensaje = document.getElementById('mensaje').value.trim();
+            
+            let isValid = true;
+            
+            // Validar nombre
+            if (nombre === '') {
+                showError('nombre', 'Por favor, ingresa tu nombre');
+                isValid = false;
+            } else {
+                showSuccess('nombre');
+            }
+            
+            // Validar email
+            if (email === '') {
+                showError('email', 'Por favor, ingresa tu correo electrónico');
+                isValid = false;
+            } else if (!validateEmail(email)) {
+                showError('email', 'Por favor, ingresa un correo electrónico válido');
+                isValid = false;
+            } else {
+                showSuccess('email');
+            }
+            
+            // Validar asunto
+            if (asunto === '') {
+                showError('asunto', 'Por favor, ingresa un asunto');
+                isValid = false;
+            } else {
+                showSuccess('asunto');
+            }
+            
+            // Validar mensaje
+            if (mensaje === '') {
+                showError('mensaje', 'Por favor, escribe tu mensaje');
+                isValid = false;
+            } else {
+                showSuccess('mensaje');
+            }
+            
+            // Si todo es válido, mostrar mensaje de éxito
+            if (isValid) {
+                document.getElementById('successMessage').style.display = 'block';
+                
+                // Opcional: limpiar el formulario
+                document.getElementById('contactForm').reset();
+                clearErrors();
+                
+                // Scroll al mensaje de éxito
+                document.getElementById('successMessage').scrollIntoView({ 
+                    behavior: 'smooth' 
+                });
+            }
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('contactForm');
+            form.addEventListener('submit', handleFormSubmit);
+            
+            // Ocultar errores cuando el usuario empiece a escribir
+            const inputs = form.querySelectorAll('input, textarea');
+            inputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    if (this.classList.contains('error')) {
+                        this.classList.remove('error');
+                        document.getElementById(this.id + 'Error').style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+    </script>
+
+
+            
+            
